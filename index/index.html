@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/1.css">
+    <script src="./js/echarts.min.js"></script>
+    <style>
+        @import url("./css/index.css");
+
+    </style>
+    <!-- <link rel="stylesheet" href="https://unpkg.com/element-ui@2.15.13/lib/theme-chalk/index.css"> -->
+</head>
+<body>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script src="./js/vue.js"></script>
+    <script src="./js/index.js"></script>
+    <div class="zong">点击下滑</div>
+    <div class="next">
+        <div id="ace5" class="aex ss" style="width:100%;background-color: #fff;"></div>
+        <div id="ace6" class="aex ss" style="width:100%;background-color: #fff;"></div>
+    </div>
+    <div class="mass">
+        <div id="app" style="position: absolute;margin-top: 80px;left:5%;z-index:1">
+            <template>
+                <el-select @change="change($event)" v-model="value" filterable placeholder="请选择" style="position: absolute;width:400px">
+                    <el-option
+                    v-for="item in options"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value">
+                    <span style="float: left">{{ item.label }}</span>
+                    <span 
+                        :style="'position: absolute;left:65%;color:'+(item.qita>0?'red':'green')+';font-size: 13px'">环比：{{parseInt(item.qita*100)}}%</span>
+                    </el-option>
+                </el-select>
+            </template>
+        </div>
+        
+        <div class="aex2" >
+            <div class="aex tup">周转及实发</div>
+        </div>
+        <div class="aex1" style="margin-top: 50px;">
+            <div id='a' class="aex ss"></div>
+            <div id="b" class="aex ss"></div>
+        </div>
+        <div class="aex1" style="margin-top: 50px;">
+            <div id='c' class="aex ss"></div>
+            <div id='d' class="aex ss"></div>
+        </div>
+    </div>
+    <!-- <button>点击</button> -->
+    <script src="./js/1.js"></script>
+    <script src="./js/2.js"></script>
+    <script src="./js/3.js"></script>
+    <script src="./js/4.js"></script>
+    <script src="./js/5.js"></script>
+    <script src="./data.js"></script>
+    <script src="https://cdn.bootcdn.net/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        $.ajax({
+            url:"",
+            dataType:'json',
+            data:{},
+            cache:false,
+            ifModified:true,
+            success:function(response){
+
+            },
+            async:false
+        })
+    </script>
+
+
+    <!--渲染echarts图表-->
+    <script>
+        setTimeout(ace1,500)
+        setTimeout(ace2,500)
+        setTimeout(ace3,500)
+        setTimeout(ace4,500)
+
+        console.log(text());
+        var data=text()['a0'];
+        var yoy=text()['a6']
+        var inputlis=[]
+        for(var i=1;i<data.length;i++){
+            inputlis.push({'value':i-1,'label':data[i][0],'qita':yoy[i-1]})
+        };
+        var Main = {
+        data() {
+            return {
+                options: inputlis,
+                value:data[1][0]
+            }
+            },
+            methods:{
+                change(e){
+                    chan(e)
+                }
+            }
+        }
+        var Ctor = Vue.extend(Main)
+        new Ctor().$mount('#app')
+        function chan(l){
+            var a=l
+            ace1(a);
+            ace2(a);
+            ace3(a);
+            ace4(a);
+        }
+       
+    </script>
+    <!--鼠标经过图表，边框线变蓝-->
+    <script>
+        $('.ss').mouseover(function(e) {
+            $(this).addClass('newl');
+        })
+        $('.ss').mouseout(function(e) {
+            $(this).removeClass('newl');
+        })
+        // $('.aex1:first').css('margin-top','0')
+    </script>
+ 
+<!--点击头部显示汇总数据图表-->
+    <script>
+        $('.zong').stop().click(function(){
+            if ($(this).height()>30){}else{
+                $(this).stop().animate(document.body.offsetWidth>900?{height:'95%'}:{height:'800px'},500,function(){//动画结束后执行
+                    $(this).text("")
+                    $(this).next().css('display','flex')
+                    $(this).next().show()
+                    $(this).append("<button style='bottom: 0px;position: absolute;'>&nbsp&nbsp收&nbsp起&nbsp&nbsp</button>")
+                    ace5();ace6()
+                })
+            }
+        })
+        $(document).on('click','button',function(){
+                $('.zong').stop().animate({
+                    height:'25px',
+                })
+                $('.zong').text("点击下滑")
+                $('.zong').next().hide()
+
+        });
+        $(document).keyup(function(e){
+
+        })
+    </script>
+
+    <script>
+        $(document).keyup(function(e){
+            // console.log(e.keyCode);
+            if (e.keyCode==40){
+                if ($('.zong').height()>30){}else{
+                    console.log(document.body.offsetWidth);
+                    $('.zong').stop().animate(document.body.offsetWidth>900?{height:'95%'}:{height:'800px'},500,function(){//动画结束后执行
+                        $('.zong').text("")
+                        $('.zong').next().css('display','flex')
+                        $('.zong').next().show()
+                        $('.zong').append("<button style='bottom: 0px;position: absolute;'>&nbsp&nbsp收&nbsp起&nbsp&nbsp</button>")
+                        ace5();ace6()
+                    })
+                }
+            }else if(e.keyCode=38){
+                if ($('.zong').height()>30){
+                    $('.zong').stop().animate({height:'25px',})
+                    $('.zong').text("点击下滑")
+                    $('.zong').next().hide()
+                }
+            }
+        })
+    </script>
+
+</body>
+</html>
