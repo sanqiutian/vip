@@ -1,2 +1,2 @@
 let module = await import('./chim.js')
-console.log(a,b);
+console.log(module.a);
