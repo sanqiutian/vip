@@ -1,3 +1,2 @@
-import {a,b} from "https://sanqiutian.github.io/vip/text/chim.js"
-
+let module = await import('./chim.js')
 console.log(a,b);
